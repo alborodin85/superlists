@@ -19,5 +19,6 @@ from lists import views
 
 urlpatterns = [
     path(r'', views.home_page, name='home'),
+    path(r'lists/new', views.new_list, name='new_list'),
     path(r'lists/alon-in-orig-rode-list-in-word/', views.view_list, name='view_list')
 ]
