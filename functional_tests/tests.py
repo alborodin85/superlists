@@ -4,12 +4,13 @@ import time
 import unittest
 from selenium.webdriver.common.by import By
 from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium.common.exceptions import WebDriverException
 
 MAX_WAIT = 2
 
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
     """Тест нового посетителя"""
 
     def test_layout_and_styling(self):
@@ -34,6 +35,7 @@ class NewVisitorTest(LiveServerTestCase):
 
     def tearDown(self) -> None:
         """Демонтаж"""
+        self.browser.refresh()
         self.browser.quit()
 
     def check_for_row_in_list_table(self, row_text):
