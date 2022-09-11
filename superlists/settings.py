@@ -27,11 +27,7 @@ SECRET_KEY = 'django-insecure-coi#6t-z8prsos_ftj@to_u1v@d0x1id^#eh%&*!a4p2_nwgu0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    '192.168.1.2',
-    'localhost',
-    '127.0.0.1',
-]
+ALLOWED_HOSTS = []
 
 CSRF_TRUSTED_ORIGINS = [
     'http://superlist-staging.it5.su'
