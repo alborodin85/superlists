@@ -15,7 +15,7 @@ class ItemValidationTest(FunctionalTest):
 
         # Домашняя страница обновляется, и появляется сообщение об ошибке, которое говорит, что элементы не должны быть пустыми
         self.wait_for(lambda:
-                      self.assertEqual(self.browser.find_element(By.CSS_SELECTOR, '.has-error').text, 'You cant have an empty list item')
+                      self.assertEqual(self.browser.find_element(By.CSS_SELECTOR, '.has-error').text, "You can't have an empty list item")
                       )
 
         # Она пробует снова, теперь с неким текстом для элемента, и теперь это срабатывает
@@ -28,7 +28,7 @@ class ItemValidationTest(FunctionalTest):
 
         # Она получает аналогичное предупреждение на странице списка
         self.wait_for(lambda:
-                      self.assertEqual(self.browser.find_element(By.CSS_SELECTOR, '.has-error').text, 'You cant have an empty list item')
+                      self.assertEqual(self.browser.find_element(By.CSS_SELECTOR, '.has-error').text, "You can't have an empty list item")
                       )
 
         # И она может его исправить, заполнив поле неким текстом

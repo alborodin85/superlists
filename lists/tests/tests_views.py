@@ -3,6 +3,7 @@ from django.urls import resolve
 from lists.views import home_page
 from django.http import HttpRequest
 from lists.models import Item, List
+from django.utils.html import escape
 
 
 class HomePageTest(TestCase):
@@ -88,6 +89,20 @@ class NewListTest(TestCase):
         new_list = List.objects.first()
         self.assertRedirects(response, f'/lists/{new_list.id}/')
 
+    def test_validation_errors_and_sent_back_to_home_page_template(self):
+        """Тест: ошибки валидации отсылаются назад в шаблон домашней страницы"""
+        response = self.client.post('/lists/new', data={'item_text': ''})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'home.html')
+        expected_error = escape("You can't have an empty list item")
+        # print(response.content.decode())
+        self.assertContains(response, expected_error)
+
+    def test_invalid_list_items_arent_saved(self):
+        """Тест: сохраняются недопустимые элементы списка"""
+        self.client.post('/list/new', data={'item_text': ''})
+        self.assertEqual(List.objects.count(), 0)
+        self.assertEqual(Item.objects.count(), 0)
 
 class NewItemTest(TestCase):
     """ Тест нового элемента списка"""
