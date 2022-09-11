@@ -1,67 +1,11 @@
+from .base import FunctionalTest
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import time
-import unittest
 from selenium.webdriver.common.by import By
-from django.test import LiveServerTestCase
-from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from selenium.common.exceptions import WebDriverException
-import os
-
-MAX_WAIT = 2
 
 
-class NewVisitorTest(StaticLiveServerTestCase):
+class NewVisitorTest(FunctionalTest):
     """Тест нового посетителя"""
-
-    def test_layout_and_styling(self):
-        """Тест макета стилевого оформления"""
-        # Эдит открывает домашнюю страницу
-        self.browser.get(self.live_server_url)
-        self.browser.set_window_size(1024, 768)
-
-        # Она замечает, что поле ввода аккуратно центрировано
-        inputBox = self.browser.find_element(By.ID, 'id_new_item')
-        self.assertAlmostEqual(inputBox.location['x'] + inputBox.size['width']/2, 512, delta=10)
-
-        # Она начинает новый список и видит, что поле ввода там тоже аккуратно центрировано
-        inputBox.send_keys('testing')
-        inputBox.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('1: testing')
-        inputBox = self.browser.find_element(By.ID, 'id_new_item')
-        self.assertAlmostEqual(inputBox.location['x'] + inputBox.size['width']/2, 512, delta=10)
-    def setUp(self) -> None:
-        """Установка"""
-        self.browser = webdriver.Firefox()
-        staging_server = os.environ.get('STAGING_SERVER')
-        if staging_server:
-            self.live_server_url = 'http://' + staging_server
-
-    def tearDown(self) -> None:
-        """Демонтаж"""
-        self.browser.refresh()
-        self.browser.quit()
-
-    def check_for_row_in_list_table(self, row_text):
-        """Подтверждение строки в таблице списка"""
-        table = self.browser.find_element(By.ID, 'id_list_table')
-        rows = table.find_elements(By.TAG_NAME, 'tr')
-        self.assertIn(row_text, [row.text for row in rows])
-
-    def wait_for_row_in_list_table(self, row_text):
-        """Ожидать строку в таблице списка"""
-        start_time = time.time()
-        while True:
-            try:
-                table = self.browser.find_element(By.ID, 'id_list_table')
-                rows = table.find_elements(By.TAG_NAME, 'tr')
-                self.assertIn(row_text, [row.text for row in rows])
-                return
-            except (AssertionError, WebDriverException) as e:
-                if time.time() - start_time > MAX_WAIT:
-                    raise e
-                time.sleep(0.1)
-
     def test_can_start_a_list_for_one_user(self):
         """Тест: можно начать список для одного пользователя"""
         # Эдит слышала про крутое онлайн-решение со списком неотложных дел. Она решает оценить домашнюю страницу.
@@ -84,14 +28,12 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
         # Когда она нажимает Enter, страница обновляется, и теперь страница содержит "1: Купить павлиньи перья"
         inputBox.send_keys(Keys.ENTER)
-        time.sleep(1)
         self.wait_for_row_in_list_table('1: Купить павлиньи перья')
 
         # Текстовое поле по-прежнему приглашает ее добавить еще один элемент. Она вводит "Сделать мушку из павлиньих перьев"
         inputBox = self.browser.find_element(By.ID, 'id_new_item')
         inputBox.send_keys('Сделать мушку из павлиньих перьев')
         inputBox.send_keys(Keys.ENTER)
-        time.sleep(1)
 
         # Страница снова обновляется. И теперь показывает оба элемента списка.
         self.wait_for_row_in_list_table('1: Купить павлиньи перья')
