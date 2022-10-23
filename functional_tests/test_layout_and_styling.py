@@ -12,12 +12,12 @@ class LayoutAndStylingTest(FunctionalTest):
         self.browser.set_window_size(1024, 768)
 
         # Она замечает, что поле ввода аккуратно центрировано
-        inputBox = self.browser.find_element(By.ID, 'id_new_item')
+        inputBox = self.get_item_input_box()
         self.assertAlmostEqual(inputBox.location['x'] + inputBox.size['width'] / 2, 512, delta=10)
 
         # Она начинает новый список и видит, что поле ввода там тоже аккуратно центрировано
         inputBox.send_keys('testing')
         inputBox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: testing')
-        inputBox = self.browser.find_element(By.ID, 'id_new_item')
+        inputBox = self.get_item_input_box()
         self.assertAlmostEqual(inputBox.location['x'] + inputBox.size['width'] / 2, 512, delta=10)

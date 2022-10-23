@@ -5,6 +5,7 @@ import time
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import WebDriverException
 
+
 MAX_WAIT = 2
 
 
@@ -47,3 +48,7 @@ class FunctionalTest(StaticLiveServerTestCase):
                 if time.time() - start_time > MAX_WAIT:
                     raise e
                 time.sleep(0.1)
+
+    def get_item_input_box(self):
+        """Получить поле ввода для элемента"""
+        return self.browser.find_element(By.ID, 'id_text')
