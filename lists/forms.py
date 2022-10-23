@@ -6,6 +6,14 @@ EMPTY_ITEM_ERROR = "You can't have an empty list item"
 class ItemForm(forms.models.ModelForm):
     """Форма для элемента списка"""
 
+    def save(self, for_list):
+        self.instance.list = for_list
+        new_item = None
+        if (self.is_valid()):
+            new_item = super().save()
+
+        return new_item
+
     class Meta:
         model = Item
         fields = ('text',)
@@ -18,10 +26,3 @@ class ItemForm(forms.models.ModelForm):
         error_messages = {
             'text': {'required': EMPTY_ITEM_ERROR}
         }
-
-    # item_text = forms.CharField(
-    #     widget=forms.fields.TextInput(attrs={
-    #         'placeholder': 'Enter a to-do item',
-    #         'class': 'form-control input-lg',
-    #     })
-    # )
