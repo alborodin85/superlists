@@ -1,6 +1,7 @@
 from django import forms
 from lists.models import Item
 
+EMPTY_ITEM_ERROR = "You can't have an empty list item"
 
 class ItemForm(forms.models.ModelForm):
     """Форма для элемента списка"""
@@ -13,6 +14,9 @@ class ItemForm(forms.models.ModelForm):
                 'placeholder': 'Enter a to-do item',
                 'class': 'form-control input-lg',
             })
+        }
+        error_messages = {
+            'text': {'required': EMPTY_ITEM_ERROR}
         }
 
     # item_text = forms.CharField(
