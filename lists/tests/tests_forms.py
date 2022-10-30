@@ -34,6 +34,13 @@ class ItemFormTest(TestCase):
         self.assertEqual(new_item.text, 'do me')
         self.assertEqual(new_item.list, list_)
 
+    def test_form_save(self):
+        """Тест сохранения формы"""
+        list_ = List.objects.create()
+        form = ExistingListItemForm(for_list=list_, data={'text': 'hi'})
+        new_item = form.save()
+        self.assertEqual(new_item, Item.objects.all()[0])
+
 
 class ExistingListItemFormTest(TestCase):
     """Тест формы элемента существующего списка"""
