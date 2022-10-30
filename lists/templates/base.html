@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>To-Do Lists</title>
@@ -13,22 +13,22 @@
     <div class="row">
         <div class="col jumbotron">
             <div class="text-center">
-    <h1>{% block header_text %}{% endblock %}</h1>
-    <form method="post" action="{% block form_action %}{% endblock %}">
-        {{ form.text }}
-        {% csrf_token %}
-        {% if form.errors %}
-            <div class="form-group has-error">
-                <div class="help-block">{{ form.text.errors }}</div>
-            </div>
-        {% endif %}
-    </form>
+                <h1>{% block header_text %}{% endblock %}</h1>
+                <form method="post" action="{% block form_action %}{% endblock %}">
+                    {{ form.text }}
+                    {% csrf_token %}
+                    {% if form.errors %}
+                        <div class="form-group has-error">
+                            <div class="help-block">{{ form.text.errors }}</div>
+                        </div>
+                    {% endif %}
+                </form>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col ">
-    {% block table %} {% endblock %}
+            {% block table %} {% endblock %}
         </div>
     </div>
 </div>
